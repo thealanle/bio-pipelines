@@ -1,4 +1,5 @@
 import requests
+import bs4
 from Bio.Blast import NCBIWWW, NCBIXML
 
 INPUT_FILE = 'input_files/hbb.fasta'
@@ -19,5 +20,8 @@ print(fasta_string)
 
 result_handle = NCBIWWW.qblast("blastn", "nt", fasta_string)
 
+result_xml = result_handle.read()
+
+print(result_xml)
 with open(BLAST_OUTPUT, "w") as f_out:
-    f_out.write(result_handle.read())
+    f_out.write(result_xml)
