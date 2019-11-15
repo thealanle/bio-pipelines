@@ -16,6 +16,8 @@ pandas = "*"
 seaborn = "*"
 plotly = "*"
 beautifulsoup4 = "*"
+jupyter = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.6"
