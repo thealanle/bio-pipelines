@@ -23,3 +23,8 @@ def query():
 @app.route('/result')
 def result():
     return render_template('result.html', title='Result')
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html', title='About')
