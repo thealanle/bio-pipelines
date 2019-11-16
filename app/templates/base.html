@@ -5,10 +5,19 @@
     <body>
         <div>
             bio-pipelines:
-            <a href="/index">Home</a>
-            <a href="/query">Query</a>
+            <a href={{ url_for('index')}}>Home</a>
+            <a href={{ url_for('query')}}>Query</a>
         </div>
         <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
         {% block content %}{% endblock %}
     </body>
 </html>

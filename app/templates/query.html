@@ -1,16 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Submit a sequence</h1>
+    <h1>Submit a search term</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
-        {{ form.query.label }}<br>
-        {{ form.query(size=32) }}
+            {{ form.query.label }}<br>
+            {{ form.query(size=32) }}
+            {% for error in form.query.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>
-        {{ form.have.label }}<br>
-        {{ form.have(size=32) }}
+            {{ form.have.label }}<br>
+            {{ form.have(size=32) }}
+            {% for error in form.have.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.want.label }}<br>
+            {{ form.want(size=32) }}
+            {% for error in form.want.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>{{ form.submit() }}</p>
        </form>
