@@ -4,7 +4,10 @@ from wtforms.validators import DataRequired
 
 
 class QueryForm(FlaskForm):
-    query = StringField(label='Query', validators=[DataRequired()])
+    query = StringField(label='Query:', validators=[DataRequired()])
     have = RadioField(label='Have:', choices=[
-                      ('dna', 'DNA'), ('mrna', 'mRNA')])
+                      ('dna', 'DNA'), ('mrna', 'mRNA'), ('protein', 'Protein')])
+    want = RadioField(label='Want:', choices=[
+                      ('dna', 'DNA'), ('mrna', 'mRNA'), ('protein', 'Protein'),
+                      ('wiki', 'Wikipedia Results'), ('diseases', 'Related Diseases'), ('hits', 'BLAST Hits')])
     submit = SubmitField(label='Submit')
