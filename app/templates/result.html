@@ -1,5 +1,8 @@
-{% extends "base.html" %}
+{% extends "query.html" %}
 
-{% block content %}
+{% block result %}
     <h1>Results</h1>
+    <p>{{ title }}</p>
+    <p>This was the input sequence: {{ sequence }}</p>
+    <p>Converting {{ have }} to {{ want }}...</p>
 {% endblock %}
