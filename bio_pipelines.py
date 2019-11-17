@@ -7,47 +7,42 @@ from Bio.Alphabet import IUPAC
 from app import app
 
 
-# Transcription and Translation
-def get_transcript(sequence):
+class BLASTSearch():
     """
-    Given a Seq object, return an mRNA transcript. Note that the given sequence is assumed to be DNA.
+    Uses NCBI BLAST to perform a search on the input sequence.
+    self.query: a nucleotide or protein sequence
     """
-    return sequence.transcribe()
+
+    def __init__(self, query):
+        """
+        Given a query in the form of a string, perform a BLAST search and store
+        the result in self.hits. By default, only the first 10 hits are
+        requested.
+        """
+
+        self.query = Seq(query)
+
+        # Search using NCBI Blast. hitlist_size determines the number of hits to return
+        result_handle = NCBIWWW.qblast(
+            "blastn", "nt", self.query, hitlist_size=10)
+
+        blast_record = NCBIXML.read(result_handle)
+        self.hits = blast_record.alignments
 
 
-def get_translation(sequence):
-    """
-    Given a Seq object, return a protein translation. Note that the given sequence is assumed to be mRNA.
-    """
-    return sequence.translate()
+# Debugging
+my_blast = BLASTSearch('atggtgcacctgactcctgaggagaagtctgccgttactgccctgtggggcaaggtgaacgtggatgaagttggtggtgaggccctgggcaggttgctggtggtctacccttggacccagaggttctttgagtcctttggggatctgtccactcctgatgctgttatgggcaaccctaaggtgaaggctcatggcaagaaagtgctcggtgcctttagtgatggcctggctcacctggacaacctcaagggcacctttgccacactgagtgagctgcactgtgacaagctgcacgtggatcctgagaacttcaggctcctgggcaacgtgctggtctgtgtgctggcccatcactttggcaaagaattcaccccaccagtgcaggctgcctatcagaaagtggtggctggtgtggctaatgccctggcccacaagtatcactaa')
+my_blast.query
+my_blast.hits
+for hit in my_blast.hits:
+    print(hit.title)
+    for hsp in hit.hsps:
+        print("E-value:", hsp.expect)
 
 
-# BLAST Functionality
-def blast_search(query):
-    """
-    Uses NCBI BLAST to perform a search on the input sequence(s).
-    query: a file handle for a FASTA record
-    """
-    # INPUT_FILE = 'input_files/hbb.fasta'
-    # BLAST_OUTPUT = 'output_files/my_blast.xml'
-
-    fasta_record = SeqIO.read(query, format="fasta")
-    # Search using NCBI Blast. hitlist_size determines the number of hits to return
-    result_handle = NCBIWWW.qblast(
-        "blastn", "nt", fasta_record.seq, hitlist_size=10)
-
-    # NCBIXML.parse returns a generator. Here it is converted to a list for tests.
-    blast_records = list(NCBIXML.parse(result_handle))
-    for blast_record in blast_records:
-        for alignment in blast_record.alignments:
-            for hsp in alignment.hsps:
-                print(hsp.expect)
-
-
-# Wikipedia Search
 class WikiSearch():
     """
-    An object for performing a search and containing the results.
+    An object for performing a search of Wikipedia and containing the results.
     """
 
     def __init__(self, search_term):
@@ -84,11 +79,25 @@ class WikiSearch():
         return [f"""<a href="{article[1]}">{article[0]}</a>""" for article in self.articles]
 
 
-def main():
-    print(f"Original sequence:\n{fasta_record.seq}")
-    print(f"Transcription:\n{get_transcript(fasta_record.seq)}")
-    print(get_translation(fasta_record.seq))
+# Transcription and Translation
+def get_transcript(sequence):
+    """
+    Given a Seq object, return an mRNA transcript. Note that the given sequence is assumed to be DNA.
+    """
+    return sequence.transcribe()
 
+
+def get_translation(sequence):
+    """
+    Given a Seq object, return a protein translation. Note that the given sequence is assumed to be mRNA.
+    """
+    return sequence.translate()
+
+
+def tests():
+    """
+    For debugging purposes only
+    """
     my_search = WikiSearch("Python")
     for each in my_search.get_hrefs():
         print(each)
