@@ -45,29 +45,36 @@ def blast_search(query):
 
 
 # Wikipedia Search
-def wiki_search(query):
-    """
-    Given a search term, print the title of the top result and matching URL.
-    """
-    WIKI_API_URL = "https://en.wikipedia.org/w/api.php"
-    WIKI_PAGEID_URL = "https://en.wikipedia.org/?curid="
+class WikiSearch():
 
-    params = {
-        "action": "query",
-        "format": "json",
-        "list": "search",
-        "srsearch": query
-    }
+    def __init__(self, search_term):
+        WIKI_API_URL = "https://en.wikipedia.org/w/api.php"
+        WIKI_PAGEID_URL = "https://en.wikipedia.org/?curid="
 
-    session = requests.Session()
-    response = session.get(url=WIKI_API_URL, params=params)
-    data = response.json()
+        self.params = {
+            "action": "query",
+            "format": "json",
+            "list": "search",
+            "srsearch": search_term
+        }
 
-    top_result = data['query']['search'][0]
-    if top_result:
-        print(f"Top result on Wikipedia: {top_result['title']} at {WIKI_PAGEID_URL + str(top_result['pageid'])}")
-    else:
-        print(f"{query} returned 0 results.")
+        session = requests.Session()
+        response = session.get(url=WIKI_API_URL, params=self.params).json()
+        self.results = response['query']['search']
+        self.articles = []
+
+        if self.results:
+            for result in response['query']['search']:
+                temp = (result['title'], WIKI_PAGEID_URL +
+                        str(result['pageid']))
+                print(temp)
+                self.articles.append(
+                    (result['title'], WIKI_PAGEID_URL + str(result['pageid'])))
+        else:
+            print(f"{search_term} returned 0 results.")
+
+    def get_hrefs(self):
+        return [f"""<a href="{article[1]}">{article[0]}</a>""" for article in self.articles]
 
 
 def main():
@@ -75,11 +82,34 @@ def main():
     print(f"Transcription:\n{get_transcript(fasta_record.seq)}")
     print(get_translation(fasta_record.seq))
 
-    wiki_search("Python")
+    WikiSearch("Python")
 
-# EXPASY_TRANSLATE_URL = "https://web.expasy.org/cgi-bin/translate/dna2aa.cgi"
-# query = {'dna_sequence': fasta_record, 'output_format': 'fasta'}
+
+my_search = WikiSearch("Python")
+for each in my_search.get_hrefs():
+    print(each)
+
+
+# def wiki_search(query):
+#     """
+#     Given a search term, print the title of the top result and matching URL.
+#     """
+#     WIKI_API_URL = "https://en.wikipedia.org/w/api.php"
+#     WIKI_PAGEID_URL = "https://en.wikipedia.org/?curid="
 #
-# expasy_response = requests.post(EXPASY_TRANSLATE_URL, params=query)
-# print(expasy_response)
-# print(expasy_response.text)
+#     params = {
+#         "action": "query",
+#         "format": "json",
+#         "list": "search",
+#         "srsearch": query
+#     }
+#
+#     session = requests.Session()
+#     response = session.get(url=WIKI_API_URL, params=params)
+#     data = response.json()
+#
+#     top_result = data['query']['search'][0]
+#     if top_result:
+#         print(f"Top result on Wikipedia: {top_result['title']} at {WIKI_PAGEID_URL + str(top_result['pageid'])}")
+#     else:
+#         print(f"{query} returned 0 results.")
