@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from app.forms import QueryForm
 
 
@@ -16,13 +16,18 @@ def query():
         data = {'search_term': form.query.data,
                 'have': form.have.data, 'want': form.want.data}
         flash(f"Submitted the following string: {data['search_term']}")
-        return redirect(url_for('result'))
+        print(data)
+        # return redirect(url_for('result'))
+        # return render_template('result.html', form=form, sequence=form.query.data, have=form.have.data, want=form.want.data)
     return render_template('query.html', title='Submit a Query', form=form)
 
 
-@app.route('/result')
+@app.route('/result', methods=['POST'])
 def result():
-    return render_template('result.html', title='Result')
+    form = request.form
+    if request.method == 'POST':
+        print(">>>>>POST request received. Rendering result.html...")
+        return render_template('result.html', title='Results', form=form, sequence=form.get('query'), have=form.get('have'), want=form.get('want'))
 
 
 @app.route('/about')

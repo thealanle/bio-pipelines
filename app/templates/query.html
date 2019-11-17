@@ -2,8 +2,8 @@
 
 {% block content %}
     <h1>Submit a search term</h1>
-    <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
+        <form action="{{ url_for('result')}}" method="post" novalidate>
         <p>
             {{ form.query.label }}<br>
             {{ form.query(size=32, autocomplete="off") }}
