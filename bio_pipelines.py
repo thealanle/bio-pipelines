@@ -31,13 +31,13 @@ class BLASTSearch():
 
 
 # Debugging
-my_blast = BLASTSearch('atggtgcacctgactcctgaggagaagtctgccgttactgccctgtggggcaaggtgaacgtggatgaagttggtggtgaggccctgggcaggttgctggtggtctacccttggacccagaggttctttgagtcctttggggatctgtccactcctgatgctgttatgggcaaccctaaggtgaaggctcatggcaagaaagtgctcggtgcctttagtgatggcctggctcacctggacaacctcaagggcacctttgccacactgagtgagctgcactgtgacaagctgcacgtggatcctgagaacttcaggctcctgggcaacgtgctggtctgtgtgctggcccatcactttggcaaagaattcaccccaccagtgcaggctgcctatcagaaagtggtggctggtgtggctaatgccctggcccacaagtatcactaa')
-my_blast.query
-my_blast.hits
-for hit in my_blast.hits:
-    print(hit.title)
-    for hsp in hit.hsps:
-        print("E-value:", hsp.expect)
+# my_blast = BLASTSearch('atggtgcacctgactcctgaggagaagtctgccgttactgccctgtggggcaaggtgaacgtggatgaagttggtggtgaggccctgggcaggttgctggtggtctacccttggacccagaggttctttgagtcctttggggatctgtccactcctgatgctgttatgggcaaccctaaggtgaaggctcatggcaagaaagtgctcggtgcctttagtgatggcctggctcacctggacaacctcaagggcacctttgccacactgagtgagctgcactgtgacaagctgcacgtggatcctgagaacttcaggctcctgggcaacgtgctggtctgtgtgctggcccatcactttggcaaagaattcaccccaccagtgcaggctgcctatcagaaagtggtggctggtgtggctaatgccctggcccacaagtatcactaa')
+# my_blast.query
+# my_blast.hits
+# for hit in my_blast.hits:
+#     print(hit.title)
+#     for hsp in hit.hsps:
+#         print("E-value:", hsp.expect)
 
 
 class WikiSearch():
@@ -101,3 +101,7 @@ def tests():
     my_search = WikiSearch("Python")
     for each in my_search.get_hrefs():
         print(each)
+
+
+def main():
+    pass
