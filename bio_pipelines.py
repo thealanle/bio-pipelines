@@ -46,8 +46,15 @@ def blast_search(query):
 
 # Wikipedia Search
 class WikiSearch():
+    """
+    An object for performing a search and containing the results.
+    """
 
     def __init__(self, search_term):
+        """
+        On instantiation, perform a search on Wikipedia via its API and store
+        the returned articles in self.articles.
+        """
         WIKI_API_URL = "https://en.wikipedia.org/w/api.php"
         WIKI_PAGEID_URL = "https://en.wikipedia.org/?curid="
 
@@ -65,15 +72,15 @@ class WikiSearch():
 
         if self.results:
             for result in response['query']['search']:
-                temp = (result['title'], WIKI_PAGEID_URL +
-                        str(result['pageid']))
-                print(temp)
                 self.articles.append(
                     (result['title'], WIKI_PAGEID_URL + str(result['pageid'])))
         else:
             print(f"{search_term} returned 0 results.")
 
     def get_hrefs(self):
+        """
+        Return a list of HTML-formatted anchor tags.
+        """
         return [f"""<a href="{article[1]}">{article[0]}</a>""" for article in self.articles]
 
 
