@@ -82,34 +82,6 @@ def main():
     print(f"Transcription:\n{get_transcript(fasta_record.seq)}")
     print(get_translation(fasta_record.seq))
 
-    WikiSearch("Python")
-
-
-my_search = WikiSearch("Python")
-for each in my_search.get_hrefs():
-    print(each)
-
-
-# def wiki_search(query):
-#     """
-#     Given a search term, print the title of the top result and matching URL.
-#     """
-#     WIKI_API_URL = "https://en.wikipedia.org/w/api.php"
-#     WIKI_PAGEID_URL = "https://en.wikipedia.org/?curid="
-#
-#     params = {
-#         "action": "query",
-#         "format": "json",
-#         "list": "search",
-#         "srsearch": query
-#     }
-#
-#     session = requests.Session()
-#     response = session.get(url=WIKI_API_URL, params=params)
-#     data = response.json()
-#
-#     top_result = data['query']['search'][0]
-#     if top_result:
-#         print(f"Top result on Wikipedia: {top_result['title']} at {WIKI_PAGEID_URL + str(top_result['pageid'])}")
-#     else:
-#         print(f"{query} returned 0 results.")
+    my_search = WikiSearch("Python")
+    for each in my_search.get_hrefs():
+        print(each)
