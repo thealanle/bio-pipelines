@@ -6,7 +6,7 @@ from app.forms import QueryForm
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='bio-pipelines')
+    return render_template('index.html', title='bio_pipelines')
 
 
 @app.route('/query', methods=['GET', 'POST'])
