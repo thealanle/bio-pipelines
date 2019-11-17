@@ -6,7 +6,7 @@
         {{ form.hidden_tag() }}
         <p>
             {{ form.query.label }}<br>
-            {{ form.query(size=32) }}
+            {{ form.query(size=32, autocomplete="off") }}
             {% for error in form.query.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
@@ -27,4 +27,6 @@
         </p>
         <p>{{ form.submit() }}</p>
        </form>
+{% endblock %}
+{% block results %}
 {% endblock %}
