@@ -2,6 +2,14 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-    <h4>This was the input sequence:</h4><p>{{ sequence }}</p>
+    <h4>This was the input sequence:</h4><p>{{ query }}</p>
     <p>{{ have }} -> {{ want }}</p>
+
+    <table style="margin-left: 20px;">
+    {%for result in results%}
+    <tr>
+        <td>{{result|safe}}</td>
+    {%endfor%}
+    </tr>
+    </table>
 {% endblock %}
