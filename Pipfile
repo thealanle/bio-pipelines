@@ -19,6 +19,7 @@ beautifulsoup4 = "*"
 jupyter = "*"
 ipython = "*"
 python-dotenv = "*"
+flask-bootstrap = "*"
 
 [requires]
 python_version = "3.6"
