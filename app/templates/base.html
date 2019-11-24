@@ -1,15 +1,16 @@
-{% extends 'bootstrap/base.html' %}
+{% extends "bootstrap/base.html" %}
 
 {% block styles %}
 {{super()}}
-<link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 {% endblock %}
 
 {% block navbar %}
-    <nav class="navbar navbar-default">
+<nav class="navbar navbar-default navbar-fixed-top">
         bio-pipelines:
         <a href={{ url_for('index')}}>Home</a>
         <a href={{ url_for('query')}}>Query</a>
         <a href={{ url_for('about')}}>About</a>
-    </nav>
+</nav>
 {% endblock %}

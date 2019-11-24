@@ -1,31 +1,32 @@
 {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
+
 {% block content %}
+<div class="container">
     <h1>Submit a search term</h1>
         {{ form.hidden_tag() }}
-        <form action="{{ url_for('result')}}" method="post">
-        <p>
+        <form action="{{ url_for('result') }}" method="post">
+        <div>
             {{ form.query.label }}<br>
             {{ form.query(rows=8, cols=60, autocomplete="off") }}
             {% for error in form.query.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.have.label }}<br>
             {{ form.have(size=32) }}
             {% for error in form.have.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+        <div>
             {{ form.want.label }}<br>
             {{ form.want(size=32) }}
             {% for error in form.want.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
+        </div>
+        <div>{{ form.submit() }}</div>
        </form>
-{% endblock %}
-{% block result %}{% endblock %}
+</div>
+{% endblock content %}

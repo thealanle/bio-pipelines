@@ -5,10 +5,11 @@
         <title>{{ title }}</title>
     </head>
     <body>
-        <h1>Welcome to bio-pipelines!</h1>
-        <p>Perform basic bioinformatic functions on small queries.</p>
-        <a href={{ url_for('query') }}>Get Started</a>
-        <hr>
-
+        <div class="container">
+            <h1>Welcome to bio-pipelines!</h1>
+            <p>Perform basic bioinformatic functions on small queries.</p>
+            <a href={{ url_for('query') }}>Get Started</a>
+            <hr>
+        </div>
     </body>
 {% endblock %}

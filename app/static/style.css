@@ -1,3 +1,10 @@
 .container {
     margin-left: 20px;
 }
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+body { padding-top: 70px; }
