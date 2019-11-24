@@ -5,11 +5,35 @@
     <h4>This was the input sequence:</h4><p>{{ query }}</p>
     <p>{{ have }} -> {{ want }}</p>
 
+{% if blast_results %}
+<h3>BLAST Hits</h3>
     <table style="margin-left: 20px;">
-    {%for result in results%}
-    <tr>
-        <td>{{result|safe}}</td>
-    {%endfor%}
-    </tr>
+        <th>
+            <tr>
+                <td>Hit</td>
+            </tr>
+        </th>
+        {%for result in blast_results%}
+        <tr>
+            <td>{{ result|safe }}</td>
+        {%endfor%}
+        </tr>
     </table>
+{% endif %}
+
+{% if wiki_results %}
+<h3>Results on Wikipedia</h3>
+    <table style="margin-left: 20px;">
+        <th>
+            <tr>
+                <td>Wikipedia Article</td>
+            </tr>
+        </th>
+        {%for result in wiki_results%}
+        <tr>
+            <td>{{ result|safe }}</td>
+        {%endfor%}
+        </tr>
+    </table>
+{% endif %}
 {% endblock %}

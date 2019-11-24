@@ -30,12 +30,24 @@ def result():
                 'have': request.form.get('have'),
                 'want': request.form.get('want')}
 
-        results = bio_pipelines.WikiSearch(
-            form['query']).get_hrefs()
+        RESULT_TYPES = ['hits', 'wiki']
 
-        print(">>>>>POST request received. Rendering result.html...")
+        results = {result_type: None for result_type in RESULT_TYPES}
 
-        return render_template('result.html', title='Results', query=form['query'], have=form['have'], want=form['want'], results=results)
+        if form['want'] == 'wiki':
+            results['wiki'] = bio_pipelines.WikiSearch(
+                form['query']).get_hrefs()
+
+        if form['want'] == 'hits':
+            print(f"Getting BLAST data using input: {form['query']}")
+            results['hits'] = bio_pipelines.BLASTSearch(form['query']).hits
+
+        print(f">>>>>POST request received. Rendering result.html given {form['query']}, {form['have']}, {form['want']}...")
+
+        return render_template('result.html', title='Results', query=form['query'], have=form['have'], want=form['want'], blast_results=results['hits'], wiki_results=results['wiki'])
+
+    else:
+        return url_for('index')
 
 
 @app.route('/about')
