@@ -1,11 +1,8 @@
 {% extends 'bootstrap/base.html' %}
 
-{% block title %}
-    {% if title %}
-        {{ title }}
-    {% else %}
-        Welcome to bio-pipelines
-    {% endif %}
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/style.css')}}">
 {% endblock %}
 
 {% block navbar %}
@@ -17,4 +14,13 @@
     </nav>
 {% endblock %}
 
+<div class="container">
+{% block title %}
+    {% if title %}
+        {{ title }}
+    {% else %}
+        Welcome to bio-pipelines
+    {% endif %}
+{% endblock %}
 {% block app_content %}{% endblock %}
+</div>

@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, flash, redirect, url_for, request
 from app.forms import QueryForm
 import bio_pipelines
+import os
 
 
 @app.route('/')
@@ -42,7 +43,7 @@ def result():
             print(f"Getting BLAST data using input: {form['query']}")
             results['hits'] = bio_pipelines.BLASTSearch(form['query']).hits
 
-        print(f">>>>>POST request received. Rendering result.html given {form['query']}, {form['have']}, {form['want']}...")
+        print(f">>>>>POST request received. Rendering result.html given\n{form['query']}, {form['have']}, {form['want']}...")
 
         return render_template('result.html', title='Results', query=form['query'], have=form['have'], want=form['want'], blast_results=results['hits'], wiki_results=results['wiki'])
 
