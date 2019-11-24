@@ -14,9 +14,9 @@ def index():
 def query():
     form = QueryForm()
     if form.validate_on_submit():
-        data = {'search_term': form.query.data,
+        data = {'query': form.query.data,
                 'have': form.have.data, 'want': form.want.data}
-        flash(f"Submitted the following string: {data['search_term']}")
+        flash(f"Submitted the following string: {data['query']}")
         print(data)
         # return render_template('result.html', form=form, sequence=form.query.data, have=form.have.data, want=form.want.data)
     return render_template('query.html', title='Submit a Query', form=form)

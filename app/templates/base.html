@@ -1,18 +1,20 @@
 {% extends 'bootstrap/base.html' %}
 
 {% block title %}
-    {% if title %}{{ title }} - Microblog{% else %}Welcome to Microblog{% endif %}
+    {% if title %}
+        {{ title }}
+    {% else %}
+        Welcome to bio-pipelines
+    {% endif %}
 {% endblock %}
 
 {% block navbar %}
     <nav class="navbar navbar-default">
-        <div>
-            bio-pipelines:
-            <a href={{ url_for('index')}}>Home</a>
-            <a href={{ url_for('query')}}>Query</a>
-            <a href={{ url_for('about')}}>About</a>
-        </div>
+        bio-pipelines:
+        <a href={{ url_for('index')}}>Home</a>
+        <a href={{ url_for('query')}}>Query</a>
+        <a href={{ url_for('about')}}>About</a>
     </nav>
 {% endblock %}
 
-{% block content %}{% endblock %}
+{% block app_content %}{% endblock %}
