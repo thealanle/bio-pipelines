@@ -25,7 +25,6 @@ def query():
 
 @app.route('/result', methods=['POST'])
 def result():
-
     if request.method == 'POST':
         form = {'query': request.form.get('query'),
                 'have': request.form.get('have'),

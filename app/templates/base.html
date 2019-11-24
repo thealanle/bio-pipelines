@@ -13,14 +13,3 @@
         <a href={{ url_for('about')}}>About</a>
     </nav>
 {% endblock %}
-
-<div class="container">
-{% block title %}
-    {% if title %}
-        {{ title }}
-    {% else %}
-        Welcome to bio-pipelines
-    {% endif %}
-{% endblock %}
-{% block app_content %}{% endblock %}
-</div>
