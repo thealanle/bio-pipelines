@@ -47,7 +47,7 @@ def result():
         return render_template('result.html', title='Results', query=form['query'], have=form['have'], want=form['want'], blast_results=results['hits'], wiki_results=results['wiki'])
 
     else:
-        return url_for('index')
+        return redirect('index')
 
 
 @app.route('/about')

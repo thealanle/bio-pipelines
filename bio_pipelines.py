@@ -28,6 +28,11 @@ class BLASTSearch():
 
         blast_record = NCBIXML.read(result_handle)
         self.hits = blast_record.alignments
+        self.export_hits()
+
+    def export_hits(self):
+        for hit in self.hits:
+            print(hit)
 
 
 # Debugging
