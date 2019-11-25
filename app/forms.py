@@ -9,10 +9,10 @@ class QueryForm(FlaskForm):
                         DataRequired()], widget=TextArea())
 
     have = RadioField(label='Have:', choices=[
-                      ('dna', 'DNA'), ('mrna', 'mRNA'), ('protein', 'Protein')])
+                      ('gene', 'Gene'), ('protein', 'Protein')])
 
     want = RadioField(label='Want:', choices=[
-                      ('dna', 'DNA'), ('mrna', 'mRNA'), ('protein', 'Protein'),
+                      ('gene', 'Gene'), ('protein', 'Protein'),
                       ('wiki', 'Wikipedia Results'), ('diseases', 'Related Diseases'), ('hits', 'BLAST Hits')])
 
     submit = SubmitField(label='Submit')

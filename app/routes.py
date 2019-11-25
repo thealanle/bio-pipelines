@@ -30,9 +30,9 @@ def result():
                 'have': request.form.get('have'),
                 'want': request.form.get('want')}
 
-        RESULT_TYPES = ['hits', 'wiki']
+        RESULT_TYPES = ['gene', 'protein', 'hits', 'wiki']
 
-        results = {result_type: None for result_type in RESULT_TYPES}
+        results = {each: None for each in RESULT_TYPES}
 
         if form['want'] == 'wiki':
             results['wiki'] = bio_pipelines.WikiSearch(
@@ -42,9 +42,15 @@ def result():
             print(f"Getting BLAST data using input: {form['query']}")
             results['hits'] = bio_pipelines.BLASTSearch(form['query']).hits
 
+        if form['want'] == 'protein':
+            print(f"Converting nucleic acid string to protein...")
+            my_seq = bio_pipelines.Seq(form['query'])
+            print(my_seq)
+            results['protein'] = my_seq.translate()
+
         print(f">>>>>POST request received. Rendering result.html given\n{form['query']}, {form['have']}, {form['want']}...")
 
-        return render_template('result.html', title='Results', query=form['query'], have=form['have'], want=form['want'], blast_results=results['hits'], wiki_results=results['wiki'])
+        return render_template('result.html', title='Results', query=form['query'], have=form['have'], want=form['want'], protein_seq=results['protein'], blast_results=results['hits'], wiki_results=results['wiki'])
 
     else:
         return redirect('index')
