@@ -1,14 +1,17 @@
-.container {
+body {
     margin-left: 20px;
+    font-family: Roboto, sans-serif;
 }
+
+
 
 ul {
   list-style-type: none;
   padding: 0;
 }
 
-body {
-    font-family: Roboto, sans-serif;
+.navbar {
+    margin-left: -20px;
 }
 
 .bg-dark {

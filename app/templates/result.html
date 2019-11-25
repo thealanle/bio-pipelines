@@ -1,39 +1,60 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="container">
     <h1>{{ title }}</h1>
     <h4>This was the input sequence:</h4><p>{{ query }}</p>
-    <p>{{ have }} -> {{ want }}</p>
+    <p>Converting {{ have }} -> {{ want }}</p>
+
+{% if protein_seq %}
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Translated Protein</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ protein_seq|safe }}</td>
+    </tr>
+  </tbody>
+</table>
+{% endif %}
 
 {% if blast_results %}
 <h3>BLAST Hits</h3>
-    <table style="margin-left: 20px;">
-        <th>
-            <tr>
-                <td>Hit</td>
-            </tr>
-        </th>
-        {%for result in blast_results%}
-        <tr>
-            <td>{{ result|safe }}</td>
-        {%endfor%}
-        </tr>
-    </table>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">BLAST Hit</th>
+    </tr>
+  </thead>
+  <tbody>
+      {%for result in blast_results%}
+      <tr>
+          <td>{{ result|safe }}</td>
+      {%endfor%}
+      </tr>
+  </tbody>
+</table>
 {% endif %}
 
 {% if wiki_results %}
 <h3>Results on Wikipedia</h3>
-    <table style="margin-left: 20px;">
-        <th>
-            <tr>
-                <td>Wikipedia Article</td>
-            </tr>
-        </th>
-        {%for result in wiki_results%}
-        <tr>
-            <td>{{ result|safe }}</td>
-        {%endfor%}
-        </tr>
-    </table>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Wikipedia Article</th>
+    </tr>
+  </thead>
+  <tbody>
+      {%for result in wiki_results%}
+      <tr>
+          <td>{{ result|safe }}</td>
+      {%endfor%}
+      </tr>
+  </tbody>
+</table>
 {% endif %}
+</div>
 {% endblock %}
