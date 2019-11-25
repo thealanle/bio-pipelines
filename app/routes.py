@@ -61,6 +61,11 @@ def about():
     return render_template('about.html', title='About')
 
 
+@app.route('/test')
+def test():
+    return render_template('test.html', title='Test')
+
+
 def sanitize(query):
     if query[0] == '>':
         return query.split('\n')[1:]
