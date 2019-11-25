@@ -32,7 +32,7 @@ class BLASTSearch():
 
     def export_hits(self):
         for hit in self.hits:
-            print(hit)
+            print(hit.title)
 
 
 # Debugging
