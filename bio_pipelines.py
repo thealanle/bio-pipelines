@@ -27,12 +27,23 @@ class BLASTSearch():
             "blastn", "nt", self.query, hitlist_size=10)
 
         blast_record = NCBIXML.read(result_handle)
-        self.hits = blast_record.alignments
+        self.hits = [Hit(hit) for hit in blast_record.alignments]
+
         self.export_hits()
 
     def export_hits(self):
         for hit in self.hits:
             print(hit.title)
+
+
+class Hit():
+    def __init__(self, alignment):
+        """Given an alignment, parse the information into a Hit record."""
+        self.alignment = [entry.strip() for entry in alignment.split('|')]
+
+        self.title = self.alignment[4]
+        self.db = self.alignment[2]
+        self.accession = self.alignment[3]
 
 
 # Debugging
@@ -79,9 +90,9 @@ class WikiSearch():
 
     def get_hrefs(self):
         """
-        Return a list of HTML-formatted anchor tags.
+        Return a list of HTML - formatted anchor tags.
         """
-        return [f"""<a href="{article[1]}">{article[0]}</a>""" for article in self.articles]
+        return [f""" < a href = "{article[1]}" > {article[0]} < /a > """ for article in self.articles]
 
 
 # Transcription and Translation
