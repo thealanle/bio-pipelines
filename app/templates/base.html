@@ -14,13 +14,10 @@
       <a class="navbar-brand" href="{{ url_for('index') }}">bio-pipelines</a>
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav">
         <li><a href="{{ url_for('query') }}">Query</a></li>
         <li><a href="{{ url_for('about') }}">About</a></li>
         <li><a href="{{ url_for('test') }}">Test</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
+    </ul>
 </nav>
 {% endblock %}

@@ -7,7 +7,7 @@
         <form action="{{ url_for('result') }}" method="post">
         <div>
             {{ form.query.label }}<br>
-            {{ form.query(rows=8, cols=60, autocomplete="off") }}
+            {{ form.query(rows=8, cols=80, autocomplete="off") }}
             {% for error in form.query.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
