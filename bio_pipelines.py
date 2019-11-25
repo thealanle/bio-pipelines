@@ -27,7 +27,8 @@ class BLASTSearch():
             "blastn", "nt", self.query, hitlist_size=10)
 
         blast_record = NCBIXML.read(result_handle)
-        self.hits = [Hit(hit) for hit in blast_record.alignments]
+        self.hits = blast_record.alignments
+        # self.hits = [Hit(hit) for hit in blast_record.alignments]
 
         self.export_hits()
 
