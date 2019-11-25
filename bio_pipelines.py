@@ -92,7 +92,7 @@ class WikiSearch():
         """
         Return a list of HTML - formatted anchor tags.
         """
-        return [f""" < a href = "{article[1]}" > {article[0]} < /a > """ for article in self.articles]
+        return [f"""<a href="{article[1]}">{article[0]}</a>""" for article in self.articles]
 
 
 # Transcription and Translation
