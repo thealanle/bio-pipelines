@@ -1,8 +1,9 @@
-from app import app
 from flask import render_template, flash, redirect, url_for, request
+from app import app
 from app.forms import QueryForm
+from Bio.Seq import Seq
+from Bio import SeqIO
 import bio_pipelines
-import os
 
 
 @app.route('/')
@@ -26,7 +27,9 @@ def query():
 @app.route('/result', methods=['POST'])
 def result():
     if request.method == 'POST':
-        form = {'query': request.form.get('query'),
+        print("\n>>>>>POST request received. Processing...")
+
+        form = {'query': str(request.form.get('query')),
                 'have': request.form.get('have'),
                 'want': request.form.get('want')}
 
@@ -38,18 +41,29 @@ def result():
             results['wiki'] = bio_pipelines.WikiSearch(
                 form['query']).get_hrefs()
 
-        if form['want'] == 'hits':
+        elif form['want'] == 'hits':
             print(f"Getting BLAST data using input: {form['query']}")
             results['hits'] = bio_pipelines.BLASTSearch(form['query']).hits
 
-        if form['want'] == 'protein':
+        elif form['want'] == 'protein':
             print(f"Converting nucleic acid string to protein...")
-            my_seq = bio_pipelines.Seq(form['query'])
-            print(my_seq)
-            results['protein'] = my_seq.translate()
+            form['query'] = form['query'].replace('\r', '')
 
-        print(f">>>>>POST request received. Rendering result.html given\n{form['query']}, {form['have']}, {form['want']}...")
+            if form['query'][0] == '>':
+                print('>>>>>FASTA format detected')
+                seq = ''.join([line.strip()
+                               for line in form['query'].split('\n')][1:])
+                form['query'] = Seq(seq)
+            else:
+                print('>>>>>Sequence not in FASTA format. Sanitizing...')
+                seq = ''.join([line.strip()
+                               for line in form['query'].split('\n')])
+                form['query'] = Seq(seq)
 
+            print(f">>>>>Now translating sequence:\n{form['query']}")
+            results['protein'] = form['query'].translate()
+
+        print(f">>>>>POST request received. Rendering result.html...")
         return render_template('result.html', title='Results', query=form['query'], have=form['have'], want=form['want'], protein_seq=results['protein'], blast_results=results['hits'], wiki_results=results['wiki'])
 
     else:
