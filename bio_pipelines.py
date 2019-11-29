@@ -1,5 +1,4 @@
 import requests
-import bs4
 from Bio import SeqIO
 from Bio.Blast import NCBIWWW, NCBIXML
 from Bio.Seq import Seq
