@@ -39,7 +39,8 @@ def result():
 
         elif form['want'] == 'hits':  # BLAST hits
             print(f"Getting BLAST data using input: {form['query']}")
-            results['hits'] = bio_pipelines.BLASTSearch(form['query']).hits
+            results['hits'] = bio_pipelines.BLASTSearch(
+                form['query']).data_table
 
         elif form['want'] == 'protein':  # Protein translation
             print(f"Converting nucleic acid string to protein...")

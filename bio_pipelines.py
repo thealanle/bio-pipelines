@@ -64,15 +64,6 @@ class BLASTSearch():
         self.parse_headers(self.hits)
         self.build_table()
 
-    def build_href(self, nsid, id):
-        """
-        Goal: Given an NSID type and ID number, return an href linking to an
-        NCBI search for the id.
-        """
-
-        url = f"https://www.ncbi.nlm.nih.gov/search/all/?term={id}"
-        return f"<a href=\"{url}\">{self.NSID_TABLE[nsid]}</a>"
-
     def parse_headers(self, alignments):
         """
         Given a list of NCBI FASTA-formatted alignment, return a list of
@@ -120,12 +111,21 @@ class BLASTSearch():
 
         return result
 
+    def build_href(self, nsid, id):
+        """
+        Goal: Given an NSID type and ID number, return an href linking to an
+        NCBI search for the id.
+        """
+
+        url = f"https://www.ncbi.nlm.nih.gov/search/all/?term={id}"
+        return f"<a href=\"{url}\">{self.NSID_TABLE[nsid]}: {id}</a>"
+
     def build_table(self):
         self.data_table = [['Title', 'References']]
 
         for d in self.parsed_headers:
             result = [d['title']]
-            refs = '\n'.join(
+            refs = '<br>'.join(
                 [value for key, value in d.items() if value and not key == 'title'])
             print(refs)
             result.append(refs)

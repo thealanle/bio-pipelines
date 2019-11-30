@@ -33,13 +33,15 @@
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
-      <th scope="col">BLAST Hit</th>
+      <th scope="col">{{ blast_results[0][0]}}</th>
+      <th scope="col">{{ blast_results[0][1]}}</th>
     </tr>
   </thead>
   <tbody>
-      {%for result in blast_results%}
+      {%for result in blast_results[1:]%}
       <tr>
-          <td>{{ result|safe }}</td>
+          <td>{{ result[0]|safe }}</td>
+          <td>{{ result[1]|safe }}</td>
       {%endfor%}
       </tr>
   </tbody>
