@@ -12,48 +12,124 @@ class BLASTSearch():
     self.query: a nucleotide or protein sequence
     """
 
-    def __init__(self, query):
+    def __init__(self, query, seq_type='nt'):
         """
         Given a query in the form of a string, perform a BLAST search and store
         the result in self.hits. By default, only the first 10 hits are
         requested.
         """
 
+        self.NSID_TABLE = {
+            'bbm': 'GenInfo Backbone',
+            'bbs': 'GenInfo Backbone',
+            'dbj': 'DNA Database of Japan',
+            'emb': 'EMBL',
+            'gb': 'GenBank',
+            'gi': 'GenInfo Integrated',
+            'gim': 'GenInfo Import',
+            'gnl': 'General',
+            'gp': 'GenPept',
+            'lcl': 'Local',
+            'oth': 'Other',
+            'pat': 'Patent',
+            'pdb': 'Brookhaven Protein Database',
+            'pir': 'Protein Information Resource International',
+            'prf': 'Protein Research Foundation',
+            'ref': 'RefSeq',
+            'sp': 'SWISS-PROT',
+            'tpd': 'Third-party annotation, DDBJ',
+            'tpe': 'Third-party annotation, EMBL',
+            'tpg': 'Third party annotation, GenBank'
+        }
+
+        self.PROGRAM_TABLE = {
+            'nt': 'blastn',
+            'pro': 'blastp',
+        }
+
+        self.titles = []
+
         self.query = Seq(query)
 
         # Search using NCBI Blast. hitlist_size determines the number of hits to return
         result_handle = NCBIWWW.qblast(
-            "blastn", "nt", self.query, hitlist_size=10)
+            self.PROGRAM_TABLE[seq_type], database=seq_type, sequence=self.query, hitlist_size=10)
 
-        blast_record = NCBIXML.read(result_handle)
-        self.hits = blast_record.alignments
-        # self.hits = [Hit(hit) for hit in blast_record.alignments]
+        self.blast_record = NCBIXML.read(result_handle)
+        # print(type(blast_record))  # Returns <class 'Bio.Blast.Record.Blast'>
 
-        self.export_hits()
+        # Create a list of dicts containing the alignments and their properties
+        self.hits = self.blast_record.alignments
 
-    def export_hits(self):
-        for hit in self.hits:
-            print(hit.title)
+        self.parse_headers(self.hits)
+        self.build_table()
 
+    def build_href(self, nsid, id):
+        """
+        Goal: Given an NSID type and ID number, return an href linking to an
+        NCBI search for the id.
+        """
 
-class Hit():
-    def __init__(self, alignment):
-        """Given an alignment, parse the information into a Hit record."""
-        self.alignment = [entry.strip() for entry in alignment.split('|')]
+        url = f"https://www.ncbi.nlm.nih.gov/search/all/?term={id}"
+        return f"<a href=\"{url}\">{self.NSID_TABLE[nsid]}</a>"
 
-        self.title = self.alignment[4]
-        self.db = self.alignment[2]
-        self.accession = self.alignment[3]
+    def parse_headers(self, alignments):
+        """
+        Given a list of NCBI FASTA-formatted alignment, return a list of
+        dicts for each alignment.
+        """
+        self.parsed_headers = []
+        for alignment in alignments:
+            self.parsed_headers.append(self.parse_header(alignment.title))
 
+        # Print the resulting data to stdout
+        print("Title strings parsed and stored in parsed_headers. Results: \n")
+        for entry in self.parsed_headers:
+            for key, value in entry.items():
+                if value:
+                    print(f"{key}: {value}")
+            print()
 
-# Debugging
-# my_blast = BLASTSearch('atggtgcacctgactcctgaggagaagtctgccgttactgccctgtggggcaaggtgaacgtggatgaagttggtggtgaggccctgggcaggttgctggtggtctacccttggacccagaggttctttgagtcctttggggatctgtccactcctgatgctgttatgggcaaccctaaggtgaaggctcatggcaagaaagtgctcggtgcctttagtgatggcctggctcacctggacaacctcaagggcacctttgccacactgagtgagctgcactgtgacaagctgcacgtggatcctgagaacttcaggctcctgggcaacgtgctggtctgtgtgctggcccatcactttggcaaagaattcaccccaccagtgcaggctgcctatcagaaagtggtggctggtgtggctaatgccctggcccacaagtatcactaa')
-# my_blast.query
-# my_blast.hits
-# for hit in my_blast.hits:
-#     print(hit.title)
-#     for hsp in hit.hsps:
-#         print("E-value:", hsp.expect)
+    def parse_header(self, header):
+        """
+        Parse a single header string.
+        """
+
+        # Build a dict based off of all NSIDs, default value of None
+        result = {id: None for id in self.NSID_TABLE.keys()}
+
+        # Split header by '|'
+        entries = [each.strip() for each in header.split('|')]
+
+        # If an entry is an NSID, build an href to the appropriate search page.
+        for i in range(len(entries)):
+            entry = entries[i]
+            # Check if entry is an NSID
+            if entry in result.keys():
+                try:
+                    # TO-DO: This may vary depending on formatting of NSID.
+                    # Consider making a table to indicate correct indices.
+                    result[entry] = self.build_href(entry, entries[i + 1])
+                    print(f"Parsed {header} into {result[entry]}")
+                except Exception:
+                    result[entry] = None
+
+        # Alignment title appears at position 4.
+        result['title'] = entries[4]
+        self.titles.append(entries[4])
+
+        return result
+
+    def build_table(self):
+        self.data_table = [['Title', 'References']]
+
+        for d in self.parsed_headers:
+            result = [d['title']]
+            refs = '\n'.join(
+                [value for key, value in d.items() if value and not key == 'title'])
+            print(refs)
+            result.append(refs)
+            self.data_table.append(result)
 
 
 class WikiSearch():
