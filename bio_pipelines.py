@@ -19,6 +19,7 @@ class BLASTSearch():
         requested.
         """
 
+        # Dictionary of  services and their NSID abbreviations
         self.NSID_TABLE = {
             'bbm': 'GenInfo Backbone',
             'bbs': 'GenInfo Backbone',
@@ -42,11 +43,13 @@ class BLASTSearch():
             'tpg': 'Third party annotation, GenBank'
         }
 
+        # Specify which program to use for nucleotide vs. protein BLAST
         self.PROGRAM_TABLE = {
             'nt': 'blastn',
             'pro': 'blastp',
         }
 
+        # Specify which database to use for nucleotide vs. protein BLAST
         self.DB_TABLE = {
             'nt': 'nt',
             'pro': 'swissprot',

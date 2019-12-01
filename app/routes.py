@@ -20,6 +20,10 @@ def query():
 
 @app.route('/result', methods=['POST'])
 def result():
+    """
+    Based on form data, perform the appropriate search or conversion operation
+    and return results.
+    """
     if request.method == 'POST':
         print("\n>>>>>POST request received. Processing...")
 
@@ -33,6 +37,7 @@ def result():
         # Create a dict of results, initialized to None
         results = {each: None for each in RESULT_TYPES}
 
+        # Based on the form entry, update the "results" accordingly
         if form['want'] == 'wiki':  # Wikipedia search results
             results['wiki'] = bio_pipelines.WikiSearch(
                 form['query']).get_hrefs()
@@ -70,11 +75,18 @@ def result():
 
 @app.route('/about')
 def about():
+    """
+    Return the About page.
+    """
     return render_template('about.html', title='About')
 
 
 @app.route('/test')
 def test():
+    """
+    Return the Test page. This should only be accessed directly via the URL.
+    This page may be used for testing CSS or incomplete functions.
+    """
     return render_template('test.html', title='Test')
 
 
