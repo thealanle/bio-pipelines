@@ -12,7 +12,7 @@ class BLASTSearch():
     self.query: a nucleotide or protein sequence
     """
 
-    def __init__(self, query, seq_type='nt'):
+    def __init__(self, query, data_type='nt'):
         """
         Given a query in the form of a string, perform a BLAST search and store
         the result in self.hits. By default, only the first 10 hits are
@@ -25,7 +25,7 @@ class BLASTSearch():
             'dbj': 'DNA Database of Japan',
             'emb': 'EMBL',
             'gb': 'GenBank',
-            'gi': 'GenInfo Integrated',
+            'gi': 'GenInfo',
             'gim': 'GenInfo Import',
             'gnl': 'General',
             'gp': 'GenPept',
@@ -47,13 +47,18 @@ class BLASTSearch():
             'pro': 'blastp',
         }
 
+        self.DB_TABLE = {
+            'nt': 'nt',
+            'pro': 'swissprot',
+        }
+
         self.titles = []
 
         self.query = Seq(query)
 
         # Search using NCBI Blast. hitlist_size determines the number of hits to return
         result_handle = NCBIWWW.qblast(
-            self.PROGRAM_TABLE[seq_type], database=seq_type, sequence=self.query, hitlist_size=10)
+            program=self.PROGRAM_TABLE[data_type], database=self.DB_TABLE[data_type], sequence=self.query, hitlist_size=10)
 
         self.blast_record = NCBIXML.read(result_handle)
         # print(type(blast_record))  # Returns <class 'Bio.Blast.Record.Blast'>
@@ -105,10 +110,14 @@ class BLASTSearch():
                 except Exception:
                     result[entry] = None
 
-        # Alignment title appears at position 4.
-        result['title'] = entries[4]
-        self.titles.append(entries[4])
+        try:
+            # Most sequence titles are at position 4
+            result['title'] = entries[4]
+        except Exception:
+            # Take the longest string as the title
+            result['title'] = sorted(entries, key=len)[-1]
 
+        self.titles.append(result['title'])
         return result
 
     def build_href(self, nsid, id):
@@ -123,13 +132,17 @@ class BLASTSearch():
     def build_table(self):
         self.data_table = [['Title', 'References']]
 
+        # Iterate through each parsed header and add its contents to the table
         for d in self.parsed_headers:
-            result = [d['title']]
+            # Begin building a table row
+            row = [d['title']]
+
+            # Join references with a break and add to a single cell of the table
             refs = '<br>'.join(
                 [value for key, value in d.items() if value and not key == 'title'])
-            print(refs)
-            result.append(refs)
-            self.data_table.append(result)
+
+            row.append(refs)
+            self.data_table.append(row)
 
 
 class WikiSearch():
