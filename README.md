@@ -6,6 +6,7 @@ Easily find information about nucleic acid and protein sequences.
 
 # Features
 Uses NCBI BLAST to gather and display relevant information about a sequence.
+Download the sample Results page from `../bp_sample_result` and take a look!
 
 # Requirements
 * Python 3.7.5
