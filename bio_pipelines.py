@@ -140,7 +140,7 @@ class BLASTSearch():
         self.NSID_URL_TABLE = {
             'bbm': 'https://www.ncbi.nlm.nih.gov/search/all/?term=',
             'bbs': 'https://www.ncbi.nlm.nih.gov/search/all/?term=',
-            'dbj': 'http://ddbj.nig.ac.jp/arsa/search?lang=en&cond=quick_search&operator=AND&query=',
+            'dbj': 'http://getentry.ddbj.nig.ac.jp/getentry/na/',
             'emb': 'https://www.ebi.ac.uk/ena/data/view/',
             'gb': 'https://www.ncbi.nlm.nih.gov/nuccore/',
             'gi': 'https://www.ncbi.nlm.nih.gov/nuccore/',
