@@ -37,7 +37,7 @@ class BLASTSearch():
             'pir': 'Protein Information Resource International',
             'prf': 'Protein Research Foundation',
             'ref': 'RefSeq',
-            'sp': 'SWISS-PROT',
+            'sp': 'Swiss-Prot',
             'tpd': 'Third-party annotation, DDBJ',
             'tpe': 'Third-party annotation, EMBL',
             'tpg': 'Third party annotation, GenBank'
@@ -137,9 +137,30 @@ class BLASTSearch():
         Goal: Given an NSID type and ID number, return an href linking to an
         NCBI search for the id.
         """
-
-        url = f"https://www.ncbi.nlm.nih.gov/search/all/?term={id}"
-        return f"<a href=\"{url}\">{self.NSID_TABLE[nsid]}: {id}</a>"
+        self.NSID_URL_TABLE = {
+            'bbm': 'https://www.ncbi.nlm.nih.gov/search/all/?term=',
+            'bbs': 'https://www.ncbi.nlm.nih.gov/search/all/?term=',
+            'dbj': 'http://ddbj.nig.ac.jp/arsa/search?lang=en&cond=quick_search&operator=AND&query=',
+            'emb': 'https://www.ebi.ac.uk/ena/data/view/',
+            'gb': 'https://www.ncbi.nlm.nih.gov/nuccore/',
+            'gi': 'https://www.ncbi.nlm.nih.gov/nuccore/',
+            'gim': 'https://www.ncbi.nlm.nih.gov/nuccore/',
+            'gnl': 'https://www.ncbi.nlm.nih.gov/search/all/?term=',
+            'gp': 'https://www.ncbi.nlm.nih.gov/protein/',
+            'lcl': 'https://www.ncbi.nlm.nih.gov/search/all/?term=',
+            'oth': 'https://www.ncbi.nlm.nih.gov/search/all/?term=',
+            'pat': 'https://www.ncbi.nlm.nih.gov/search/all/?term=',
+            'pdb': 'http://www.rcsb.org/structure/',
+            'pir': 'https://proteininformationresource.org/cgi-bin/ipcEntry?id=',
+            'prf': 'https://www.ncbi.nlm.nih.gov/search/all/?term=',
+            'ref': 'https://www.ncbi.nlm.nih.gov/nuccore/',
+            'sp': 'https://www.uniprot.org/uniprot/',
+            'tpd': 'http://ddbj.nig.ac.jp/arsa/search?lang=en&cond=quick_search&operator=AND&query=',
+            'tpe': 'https://www.ebi.ac.uk/ena/data/view/',
+            'tpg': 'https://www.ncbi.nlm.nih.gov/nuccore/'
+        }
+        url = f"{self.NSID_URL_TABLE[nsid]}{id}"
+        return f"{self.NSID_TABLE[nsid]}: <a href=\"{url}\">{id}</a>"
 
     def build_table(self):
         self.data_table = [['Title', 'References']]
