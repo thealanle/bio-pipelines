@@ -47,12 +47,14 @@ class BLASTSearch():
         self.PROGRAM_TABLE = {
             'nt': 'blastn',
             'pro': 'blastp',
+            'pro-nt': 'tblastn'
         }
 
         # Specify which database to use for nucleotide vs. protein BLAST
         self.DB_TABLE = {
             'nt': 'nt',
             'pro': 'swissprot',
+            'pro-nt': 'nt'
         }
 
         self.titles = []
@@ -60,6 +62,8 @@ class BLASTSearch():
         self.query = Seq(query)
 
         # Search using NCBI Blast. hitlist_size determines the number of hits to return
+
+        print(f"Performing {self.PROGRAM_TABLE[data_type]} using the database {self.DB_TABLE[data_type]}")
         result_handle = NCBIWWW.qblast(
             program=self.PROGRAM_TABLE[data_type], database=self.DB_TABLE[data_type], sequence=self.query, hitlist_size=10)
 
@@ -68,6 +72,11 @@ class BLASTSearch():
 
         # Create a list of dicts containing the alignments and their properties
         self.hits = self.blast_record.alignments
+
+        # Print debugging statements to std out
+        print("BLAST alignments received:")
+        for hit in self.hits:
+            print(hit.title)
 
         self.parse_headers(self.hits)
         self.build_table()

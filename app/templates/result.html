@@ -7,16 +7,31 @@
     <div class="data mono">{{ query }}</div>
     <br>
     <div class="data">
-        <p>Converting {{ have }} -> {{ want }}</p>
+        <p>Converted {{ have }} -> {{ want }}</p>
     </div>
-{% if protein_seq %}
+{% if nucleotide_seq %}
 <div class="table-responsive">
-
-
 <table class="table table-reflow table-striped">
     <thead class="thead-dark">
         <tr>
-            <th scope="col">Translated Protein</th>
+            <th scope="col">Nucleotide Sequence</th>
+        </tr>
+    </thead>
+  <tbody>
+    <tr>
+      <td>{{ nucleotide_seq|safe }}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+{% endif %}
+
+{% if protein_seq %}
+<div class="table-responsive">
+<table class="table table-reflow table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Protein Sequence</th>
         </tr>
     </thead>
   <tbody>

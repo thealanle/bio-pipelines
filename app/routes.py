@@ -37,18 +37,25 @@ def result():
         # Create a dict of results, initialized to None
         results = {each: None for each in RESULT_TYPES}
 
+        # If a radio button is unselected, return to a fresh Query page.
+        if not (form['have'] and form['want']):
+            return render_template('query.html', form=QueryForm(), error_message="You must choose a Have and a Want.")
+
+        """
+        # This functionality will be reworked into the Results table.
         # Based on the form entry, update the "results" accordingly
         if form['want'] == 'wiki':  # Wikipedia search results
             results['wiki'] = bio_pipelines.WikiSearch(
                 form['query']).get_hrefs()
+        """
 
-        elif form['want'] == 'hits':  # BLAST hits
-            print(f"Getting BLAST data using input: {form['query']}")
-            results['hits'] = bio_pipelines.BLASTSearch(
-                query=form['query'], data_type=form['have']).data_table
+        # Have nt, want nt (do nothing)
+        if form['have'] == 'nt' and form['want'] == 'nt':
+            results['nt'] = Seq(form['query'])
 
-        elif form['want'] == 'pro':  # Protein translation
-            print(f"Converting nucleic acid string to protein...")
+        # Have nt, want pro (translation)
+        elif form['have'] == 'nt' and form['want'] == 'pro':  # Protein translation
+            print(f"Translating nucleic acid string to protein...")
             form['query'] = form['query'].replace('\r', '')
 
             if form['query'][0] == '>':  # Check if FASTA-formatted
@@ -65,9 +72,27 @@ def result():
             print(f">>>>>Now translating sequence:\n{form['query']}")
             results['pro'] = form['query'].translate()
 
+        # Have nt, want BLAST (blastn)
+        elif form['have'] == 'nt' and form['want'] == 'hits':  # BLAST hits
+            print(f"Getting BLAST data using input: {form['query']}")
+            results['hits'] = bio_pipelines.BLASTSearch(
+                query=form['query'], data_type=form['have']).data_table
+
+        # Have pro, want nt (tblastn)
+        elif form['have'] == 'pro' and form['want'] == 'nt':  # BLAST hits
+            print(f"Getting BLAST data using input: {form['query']}")
+            results['hits'] = bio_pipelines.BLASTSearch(
+                query=form['query'], data_type='pro-nt').data_table
+
+        # Have pro, want BLAST (blastp)
+        elif form['have'] == 'pro' and form['want'] == 'hits':  # BLAST hits
+            print(f"Getting BLAST data using input: {form['query']}")
+            results['hits'] = bio_pipelines.BLASTSearch(
+                query=form['query'], data_type=form['have']).data_table
+
         print(f">>>>>POST request received. Rendering result.html...")
         # Return results to render_template for HTML display
-        return render_template('result.html', title='Results', query=form['query'], have=form['have'], want=form['want'], protein_seq=results['pro'], blast_results=results['hits'], wiki_results=results['wiki'])
+        return render_template('result.html', title='Results', query=form['query'], have=form['have'], want=form['want'], nucleotide_seq=results['nt'], protein_seq=results['pro'], blast_results=results['hits'], wiki_results=results['wiki'])
 
     else:
         return redirect('index')
