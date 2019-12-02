@@ -1,0 +1,47 @@
+body {
+    margin-left: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+nav {
+    font-family: 'Fira Sans', sans-serif;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+
+
+table {
+    max-width: 800px;
+    table-layout: fixed;
+}
+
+td {
+    word-wrap: break-word;
+}
+
+textarea {
+    font-family: 'Lucida Console', monospace;
+}
+
+.table-responsive {
+    table-layout: fixed;
+    max-width: 600px;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.data {
+    max-width: 600px;
+    word-wrap: break-word;
+}
+
+.mono {
+    font-family: 'Lucida Console', monospace;
+}
