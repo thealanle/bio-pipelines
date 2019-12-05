@@ -1,19 +1,17 @@
 # bio-pipelines
 Easily find information about nucleic acid and protein sequences.
 
-
-
-
 ## Features
 Uses NCBI BLAST to gather and display relevant information about a sequence.
-Download the sample Results page from `../bp_sample_result` and take a look!
+Download the sample Results page from `../bp_sample_result` and take a look, or [play with the Heroku deployment](https://bio-pipelines.herokuapp.com/).
+
+(Note: any BLAST operations performed on the deployed version will timeout, since BLAST typically takes well over 30 seconds. This functionality is being moved to a background worker to correct this issue.)
 
 ## Requirements
 * Python 3.7.5
 * [pipenv](https://github.com/pypa/pipenv)
 
 ## Setting Up the Web Application
-
 1. Start by cloning into the repository:
 ```
 git clone https://github.com/thealanle/bio-pipelines.git

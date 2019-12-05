@@ -15,6 +15,7 @@ plotly = "*"
 python-dotenv = "*"
 flask-bootstrap = "*"
 gunicorn = "*"
+rq = "*"
 
 [requires]
 python_version = "3.7.5"
